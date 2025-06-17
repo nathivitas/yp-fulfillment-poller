@@ -1,17 +1,23 @@
 version: 0.2
+
 phases:
-  install:
-    runtime-versions:
-      nodejs: 20
   pre_build:
     commands:
-      - echo Logging into ECR...
+      - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 165274966895.dkr.ecr.us-east-1.amazonaws.com
+      - export REPO_URI=165274966895.dkr.ecr.us-east-1.amazonaws.com/yp-fulfillment-poller
+      - export IMAGE_TAG=latest
   build:
     commands:
-      - docker build -t  .
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t $REPO_URI:$IMAGE_TAG .
   post_build:
     commands:
-      - docker push 
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $REPO_URI:$IMAGE_TAG
+
 artifacts:
   files: []
+
