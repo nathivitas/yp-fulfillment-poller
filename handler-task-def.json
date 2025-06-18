@@ -1,0 +1,35 @@
+{
+  "family": "poc-eventhandler",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::165274966895:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "handler",
+      "image": "165274966895.dkr.ecr.us-east-1.amazonaws.com/poc-eventhandler:latest",
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "environment": [
+        { "name": "DB_HOST", "value": "poc-eventhandler-db.c3d077zswjur.us-east-1.rds.amazonaws.com" },
+        { "name": "DB_USER", "value": "admin" },
+        { "name": "DB_PASSWORD", "value": "Admin1234!" },
+        { "name": "DB_NAME", "value": "pocdb" }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/poc-eventhandler",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}

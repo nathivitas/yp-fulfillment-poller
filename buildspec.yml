@@ -5,7 +5,7 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 165274966895.dkr.ecr.us-east-1.amazonaws.com
-      - export REPO_URI=165274966895.dkr.ecr.us-east-1.amazonaws.com/yp-fulfillment-poller
+      - export REPO_URI=165274966895.dkr.ecr.us-east-1.amazonaws.com/yp-poller-sqs
       - export IMAGE_TAG=latest
   build:
     commands:
